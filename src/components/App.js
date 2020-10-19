@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Button from "./Button";
@@ -7,28 +7,60 @@ import DeadLetters from "./DeadLetters";
 import TheWord from "./TheWord";
 import Keyboard from "./Keyboard";
 import GameOverModal from "./GameOverModal";
+import words from "../data/words.json";
 
 import { colors, contentWidth } from "./GlobalStyles";
 
+const initialGameState = { started: false, over: false, win: false };
 const App = () => {
+  const [game, setGame] = useState(initialGameState);
+  const [word, setWord] = useState({ str: "", revealed: [] });
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [usedLetters, setUsedLetters] = useState([]);
+  const buttonState = () => {
+    if (game.started) {
+      return "Pause";
+    }
+    {
+      return "Start";
+    }
+  };
+  const getNewWord = () => {
+    let newWord = words[Math.floor(Math.random() * words.length)];
+    let revealed = [];
+    for (let i = 0; i < newWord.length; i++) {
+      revealed.push("");
+    }
+    setWord({ str: newWord, revealed: revealed });
+  };
+
+  const handleStart = () => {
+    setGame({ ...game, started: !game.started });
+    if (word.str === "") {
+      getNewWord();
+    }
+  };
+
   return (
     <Wrapper>
       {/* <GameOverModal /> */}
       <Header />
       <Nav>
-        <Button>btn 1</Button>
+        <Button onClickFunc={handleStart}>{buttonState()}</Button>
         <Button>btn 2</Button>
       </Nav>
-      <>
-        <Container>
-          <Deadman />
-          <RightColumn>
-            <DeadLetters />
-            <TheWord />
-          </RightColumn>
-        </Container>
-        <Keyboard />
-      </>
+      {game.started && (
+        <>
+          <Container>
+            <Deadman />
+            <RightColumn>
+              <DeadLetters wrongGuesses={wrongGuesses} />
+              <TheWord word={word} />
+            </RightColumn>
+          </Container>
+          <Keyboard usedLetters={usedLetters} />
+        </>
+      )}
     </Wrapper>
   );
 };

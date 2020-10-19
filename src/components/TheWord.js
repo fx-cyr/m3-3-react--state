@@ -1,7 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const TheWord = ({}) => <Wrapper>____ ____ ____ ____ </Wrapper>;
+const TheWord = (props) => {
+  const { word } = props;
+  console.log(word.revealed);
+  return (
+    <Wrapper>
+      {word.revealed.map((l) => {
+        return " ___";
+      })}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.p`
   font-size: 20px;

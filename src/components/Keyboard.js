@@ -1,14 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import LetterKey from "./LetterKey";
-
+import letters from "../data/letters.json";
 import { colors, contentWidth } from "./GlobalStyles";
 
-const Keyboard = ({}) => (
-  <Wrapper>
-    <LetterKey />
-  </Wrapper>
-);
+const Keyboard = (props) => {
+  console.log(props);
+  const { usedLetters } = props;
+  return (
+    <Wrapper>
+      {letters.map((letter) => {
+        return (
+          <LetterKey letter={letter} disabled={usedLetters.includes(letter)} />
+        );
+      })}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   background: ${colors.yellow};
