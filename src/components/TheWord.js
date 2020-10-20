@@ -7,7 +7,7 @@ const TheWord = (props) => {
   return (
     <Wrapper>
       {word.revealed.map((l) => {
-        return " ___";
+        return <Span line={!l}>{l}</Span>;
       })}
     </Wrapper>
   );

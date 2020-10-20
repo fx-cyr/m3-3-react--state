@@ -5,13 +5,17 @@ import letters from "../data/letters.json";
 import { colors, contentWidth } from "./GlobalStyles";
 
 const Keyboard = (props) => {
-  console.log(props);
-  const { usedLetters } = props;
+  const { usedLetters, handleGuess, handleEndGame } = props;
   return (
     <Wrapper>
       {letters.map((letter) => {
         return (
-          <LetterKey letter={letter} disabled={usedLetters.includes(letter)} />
+          <LetterKey
+            letter={letter}
+            disabled={usedLetters.includes(letter)}
+            handleGuess={handleGuess}
+            handleEndGame={handleEndGame}
+          />
         );
       })}
     </Wrapper>
